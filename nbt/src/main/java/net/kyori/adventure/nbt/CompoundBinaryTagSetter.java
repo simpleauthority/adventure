@@ -31,7 +31,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
  * @param <R> the return type
  * @since 4.0.0
  */
-public interface CompoundTagSetter<R> {
+public interface CompoundBinaryTagSetter<R> {
   /**
    * Inserts a tag.
    *
