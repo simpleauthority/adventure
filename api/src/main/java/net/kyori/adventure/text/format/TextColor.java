@@ -188,6 +188,33 @@ public interface TextColor extends Comparable<TextColor>, Examinable, RGBLike, S
     return this.value() & 0xff;
   }
 
+  /**
+   * Linearly interpolates between {@code this} and {@code that} by {@code t}.
+   *
+   * @param t interpolation value
+   * @param that upper bound
+   * @return the interpolated value
+   */
+  default  @NonNull TextColor lerp(final float t, final @NonNull TextColor that) {
+    return lerp(t, this, that);
+  }
+
+  /**
+   * Linearly interpolates between {@code a} and {@code b} by {@code t}.
+   *
+   * @param t interpolation value
+   * @param a lower bound
+   * @param b upper bound
+   * @return the interpolated value
+   */
+  static @NonNull TextColor lerp(final float t, final @NonNull TextColor a, final @NonNull TextColor b) {
+    return color(
+      Math.round(a.red() + t * (b.red() - a.red())),
+      Math.round(a.green() + t * (b.green() - a.green())),
+      Math.round(a.blue() + t * (b.blue() - a.blue()))
+    );
+  }
+
   @Override
   default void styleApply(final Style.@NonNull Builder style) {
     style.color(this);
