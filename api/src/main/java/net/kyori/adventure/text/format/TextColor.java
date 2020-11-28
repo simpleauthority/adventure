@@ -194,8 +194,9 @@ public interface TextColor extends Comparable<TextColor>, Examinable, RGBLike, S
    * @param t interpolation value
    * @param that upper bound
    * @return the interpolated value
+   * @since 4.3.0
    */
-  default  @NonNull TextColor lerp(final float t, final @NonNull TextColor that) {
+  default @NonNull TextColor lerp(final float t, final @NonNull TextColor that) {
     return lerp(t, this, that);
   }
 
@@ -205,7 +206,8 @@ public interface TextColor extends Comparable<TextColor>, Examinable, RGBLike, S
    * @param t interpolation value
    * @param a lower bound
    * @param b upper bound
-   * @return the interpolated value
+   * @return the interpolated color
+   * @since 4.3.0
    */
   static @NonNull TextColor lerp(final float t, final @NonNull TextColor a, final @NonNull TextColor b) {
     return color(
