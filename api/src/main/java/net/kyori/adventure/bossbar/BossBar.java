@@ -48,22 +48,6 @@ public interface BossBar extends Examinable {
    * @since 4.2.0
    */
   float MAX_PROGRESS = 1f;
-  /**
-   * The minimum value the progress can be.
-   *
-   * @deprecated for removal since 4.2.0, use {@link #MIN_PROGRESS}
-   * @since 4.0.0
-   */
-  @Deprecated
-  float MIN_PERCENT = MIN_PROGRESS;
-  /**
-   * The maximum value the progress can be.
-   *
-   * @deprecated for removal since 4.2.0, use {@link #MAX_PROGRESS}
-   * @since 4.0.0
-   */
-  @Deprecated
-  float MAX_PERCENT = MAX_PROGRESS;
 
   /**
    * Creates a new bossbar.
@@ -180,36 +164,6 @@ public interface BossBar extends Examinable {
    * @since 4.0.0
    */
   @NonNull BossBar progress(final float progress);
-
-  /**
-   * Gets the progress.
-   *
-   * <p>The progress is a value between 0 and 1.</p>
-   *
-   * @return the progress
-   * @deprecated for removal since 4.2.0, use {@link #progress()}
-   * @since 4.0.0
-   */
-  @Deprecated
-  default float percent() {
-    return this.progress();
-  }
-
-  /**
-   * Sets the progress.
-   *
-   * <p>The progress is a value between 0 and 1.</p>
-   *
-   * @param progress the progress
-   * @return the bossbar
-   * @throws IllegalArgumentException if progress is less than 0 or greater than 1
-   * @deprecated for removal since 4.2.0, use {@link #progress(float)}
-   * @since 4.0.0
-   */
-  @Deprecated
-  default @NonNull BossBar percent(final float progress) {
-    return this.progress(progress);
-  }
 
   /**
    * Gets the color.
@@ -369,20 +323,6 @@ public interface BossBar extends Examinable {
      * @since 4.0.0
      */
     default void bossBarProgressChanged(final @NonNull BossBar bar, final float oldProgress, final float newProgress) {
-      this.bossBarPercentChanged(bar, oldProgress, newProgress);
-    }
-
-    /**
-     * Bossbar progress changed.
-     *
-     * @param bar the bossbar
-     * @param oldProgress the old progress
-     * @param newProgress the new progress
-     * @deprecated for removal since 4.2.0, use {@link #bossBarProgressChanged(BossBar, float, float)}
-     * @since 4.0.0
-     */
-    @Deprecated
-    default void bossBarPercentChanged(final @NonNull BossBar bar, final float oldProgress, final float newProgress) {
     }
 
     /**
