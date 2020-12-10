@@ -28,6 +28,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.util.Buildable;
@@ -35,6 +37,7 @@ import net.kyori.examination.ExaminableProperty;
 import net.kyori.examination.string.StringExaminer;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
+import org.jetbrains.annotations.Debug;
 
 import static java.util.Objects.requireNonNull;
 
@@ -43,6 +46,7 @@ import static java.util.Objects.requireNonNull;
  *
  * @since 4.0.0
  */
+@Debug.Renderer(text = "this.debuggerString()", childrenArray = "this.children().toArray()", hasChildren = "!this.children().isEmpty()")
 public abstract class AbstractComponent implements Component {
   static List<Component> asComponents(final List<? extends ComponentLike> list) {
     if(list.isEmpty()) {
@@ -124,11 +128,25 @@ public abstract class AbstractComponent implements Component {
     return result;
   }
 
+  private static final Collector<CharSequence, ?, String> COMMA_CURLY = Collectors.joining(", ", "{", "}");
+
+  private String debuggerString() {
+    return this.examinableName() + this.examinablePropertiesWithoutChildren()
+      .map(ex -> ex.name() + "=" + ex.examine(StringExaminer.simpleEscaping()))
+      .collect(COMMA_CURLY);
+  }
+
+  protected Stream<? extends ExaminableProperty> examinablePropertiesWithoutChildren() {
+    return Stream.of(ExaminableProperty.of("style", this.style));
+  }
+
   @Override
   public @NonNull Stream<? extends ExaminableProperty> examinableProperties() {
-    return Stream.of(
-      ExaminableProperty.of("children", this.children),
-      ExaminableProperty.of("style", this.style)
+    return Stream.concat(
+      this.examinablePropertiesWithoutChildren(),
+      Stream.of(
+        ExaminableProperty.of("style", this.style)
+      )
     );
   }
 
